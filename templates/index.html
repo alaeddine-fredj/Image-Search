@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Search</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #333;
+            background-image: linear-gradient(to right, #2b2b2b, #333, #2b2b2b);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            height: 50px;
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 28%;
+        }
+
+        form {
+            display: flex;
+            flex-grow: 1;
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        .search-icon {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+        }
+
+        .search-container input[type="text"] {
+            flex-grow: 1;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background: none;
+            outline: none;
+        }
+
+        .search-container button {
+            border: none;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <form action="/search" method="post">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search_query" name="search_query" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</body>
+</html>

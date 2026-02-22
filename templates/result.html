@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Search Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #eaeaea;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .gallery-container {
+            width: 80%;
+            max-width: 600px;
+            background: rgba(74, 69, 69, 0.95);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .gallery-title {
+    font-size: 2.25rem;
+    color: #FFFFFF; 
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); 
+    font-weight: 600;
+    margin-bottom: 2rem;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+        .image-container {
+            display: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .image-container.selected {
+            outline: 4px solid #007bff;
+        }
+
+        .button {
+            display: block;
+            padding: 0.5rem 1rem;
+            margin: 1rem auto;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .prev, .next {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #007bff;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .prev { left: -40px; }
+        .next { right: -40px; }
+
+        @media (max-width: 768px) {
+            .prev, .next {
+                font-size: 1.5rem;
+                left: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container">
+        <h2 class="gallery-title">Gallery Search Results</h2>
+        <form id="image-selection-form" action="/save_image" method="post">
+            {% for image_url in image_urls %}
+            <div class="image-container" id="image-container-{{ loop.index0 }}" onclick="selectImage({{ loop.index0 }})">
+            <img src="{{ image_url }}" alt="Image {{ loop.index }}">
+            </div>
+            {% endfor %}
+            <button type="button" class="prev" onclick="navigate(-1)">❮</button>
+            <button type="button" class="next" onclick="navigate(1)">❯</button>
+            <input type="hidden" name="selected_image" id="selected_image_input">
+            <button type="submit" class="button" id="save-button" style="display:none;">Save Selected Image</button>
+            </form>
+            </div>
+            <script>
+                let currentIdx = 0;
+                let selectedIdx = null;
+                const imageContainers = document.querySelectorAll('.image-container');
+                const saveButton = document.getElementById('save-button');
+                const selectedImageInput = document.getElementById('selected_image_input');
+            
+                function updateGallery() {
+                    imageContainers.forEach((container, idx) => {
+                        container.style.display = idx === currentIdx ? 'block' : 'none';
+                        container.classList.remove('selected');
+                    });
+                    if (selectedIdx !== null) {
+                        imageContainers[selectedIdx].classList.add('selected');
+                    }
+                    saveButton.style.display = selectedIdx !== null ? 'block' : 'none';
+                }
+            
+                function navigate(offset) {
+                    currentIdx = (currentIdx + offset + imageContainers.length) % imageContainers.length;
+                    updateGallery();
+                }
+            
+                function selectImage(idx) {
+                    selectedIdx = idx;
+                    selectedImageInput.value = idx;
+                    updateGallery();
+                }
+            
+                updateGallery();
+                </script>
+</body>
+</html>
+                        
